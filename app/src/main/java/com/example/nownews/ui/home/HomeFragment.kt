@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nownews.R
+import com.example.nownews.adapter.NewsAdapter
 import com.example.nownews.api.NewsApi.getTrendingNews
 import com.example.nownews.databinding.FragmentHomeBinding
+import com.example.nownews.model.NewsArticle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
+    private val newsList = mutableListOf<NewsArticle>()
+    private lateinit var newsAdapter: NewsAdapter
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -31,6 +36,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Setup RecyclerView
+        newsAdapter = NewsAdapter(newsList)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = newsAdapter
+
         // Call the function in the background
         fetchTrendingNews()
     }
@@ -44,11 +54,14 @@ class HomeFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 if (response != null) {
                     // Handle success
-                    binding.textView.text = response[0].title
-                    Toast.makeText(requireContext(), "News Fetched!", Toast.LENGTH_SHORT).show()
-                    println("Response: $response")
+                    newsList.addAll(response)
+                    newsAdapter.notifyDataSetChanged()
+                    binding.loadingProgress.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
                 } else {
                     // Handle error
+                    binding.loadingProgress.visibility = View.GONE
+                    binding.recyclerView.visibility = View.GONE
                     Toast.makeText(requireContext(), "Failed to fetch news", Toast.LENGTH_SHORT).show()
                 }
             }
