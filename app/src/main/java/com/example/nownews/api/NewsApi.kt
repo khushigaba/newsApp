@@ -33,13 +33,14 @@ object NewsApi {
                 val url = articleJson.getString("url")
                 val imageUrl = articleJson.optString("urlToImage", null)
                 val publishedAt = articleJson.getString("publishedAt")
-
+                val sourceName = articleJson.getJSONObject("source").optString("name", "")
                 val newsArticle = NewsArticle(
                     title = title,
                     description = description,
                     url = url,
                     imageUrl = imageUrl,
-                    publishedAt = publishedAt
+                    publishedAt = publishedAt,
+                    source = sourceName
                 )
 
                 newsList.add(newsArticle)
