@@ -15,11 +15,20 @@
         android:id="@+id/navigation_category"
         android:name="com.example.nownews.ui.category.CategoryFragment"
         android:label="News Category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_navigation_category_to_viewNewsListFragment"
+            app:destination="@id/viewNewsListFragment"
+            app:popUpTo="@id/navigation_category" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.example.nownews.ui.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/viewNewsListFragment"
+        android:name="com.example.nownews.ui.category.ViewNewsListFragment"
+        android:label="News" />
 </navigation>
