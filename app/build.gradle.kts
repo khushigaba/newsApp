@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("kapt") // Apply Kapt plugin
+    id("kotlin-kapt")
     id("kotlin-parcelize")
-    
+
 }
 
 android {
@@ -74,7 +74,7 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-
+    kapt(libs.androidx.room.compiler)  // For annotation processing
 
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
