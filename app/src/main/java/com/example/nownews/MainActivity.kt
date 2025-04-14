@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.example.nownews.databinding.ActivityMainBinding
+import com.example.nownews.local.AppDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     // Database instance (companion object makes it accessible globally)
     companion object {
-        lateinit var database: AppDatabase
+        public lateinit var database: AppDatabase
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.nownews.MainActivity
+import com.example.nownews.local.AppDatabase
 import kotlinx.coroutines.launch
 
 class CommentsFragment : Fragment() {
@@ -12,7 +13,7 @@ class CommentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Access the database
-        val db = (requireActivity() as MainActivity).database
+        val db = AppDatabase.getDatabase(requireContext())
 
         // Example: Fetch comments for an article
         lifecycleScope.launch {
