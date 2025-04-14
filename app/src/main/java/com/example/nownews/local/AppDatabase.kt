@@ -12,7 +12,7 @@ import com.example.nownews.model.Comment
     version = 1
 )
 
-abstract class AppDatabase {
+abstract class AppDatabase : RoomDatabase(){
     abstract fun commentDao(): CommentDao
 
     companion object {
