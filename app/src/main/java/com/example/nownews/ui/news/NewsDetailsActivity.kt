@@ -3,6 +3,7 @@ package com.example.nownews.ui.news
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import com.example.nownews.utils.DateUtils
 class NewsDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewsDetailsBinding
+    private var newsArticle: NewsArticle? = null // Class-level property
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +43,28 @@ class NewsDetailsActivity : AppCompatActivity() {
         }
     }
 
+    // Inflate the options menu
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_news_details, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+                true
+            }
+            R.id.action_share -> {
+                newsArticle?.let { article ->
+                    val shareText = "${article.title}\n${article.url}"
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, shareText)
+                        type = "text/plain"
+                    }
+                    startActivity(Intent.createChooser(shareIntent, "Share Article"))
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
