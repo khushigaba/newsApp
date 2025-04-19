@@ -3,6 +3,7 @@ package com.example.nownews.ui.news
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,7 @@ class NewsDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewsDetailsBinding
     private var newsArticle: NewsArticle? = null // Class-level property
+    private val TAG = "NewsDetailsActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,40 +36,67 @@ class NewsDetailsActivity : AppCompatActivity() {
 
         // Get NewsArticle object from intent
         val newsArticle = intent.getParcelableExtra<NewsArticle>("newsArticle")
-        newsArticle?.let { displayNewsDetails(it) }
+        newsArticle?.let {
+            Log.d(TAG, "Received article: ${it.title}, URL: ${it.url}")
+            displayNewsDetails(it)
+        } ?: Log.e(TAG, "No NewsArticle received from intent")
 
         // View Full Article button click
         binding.viewFullArticleButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsArticle?.url))
-            startActivity(intent)
+            newsArticle?.url?.let { url ->
+                Log.d(TAG, "Opening full article: $url")
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            } ?: Log.e(TAG, "No URL available for full article")
         }
     }
 
     // Inflate the options menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        Log.d(TAG, "Inflating menu")
         menuInflater.inflate(R.menu.menu_news_details, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "Menu item selected: ${item.itemId}")
         return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 true
             }
             R.id.action_share -> {
+                Log.d(TAG, "Share action triggered")
                 newsArticle?.let { article ->
+                    if (article.title.isNullOrEmpty() || article.url.isNullOrEmpty()) {
+                        Log.e(TAG, "Cannot share: title or URL is empty")
+                        android.widget.Toast.makeText(this, "Cannot share this article", android.widget.Toast.LENGTH_SHORT).show()
+                        return@let
+                    }
                     val shareText = "${article.title}\n${article.url}"
+                    Log.d(TAG, "Sharing text: $shareText")
                     val shareIntent = Intent().apply {
                         action = Intent.ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, shareText)
                         type = "text/plain"
                     }
-                    startActivity(Intent.createChooser(shareIntent, "Share Article"))
+                    try {
+                        startActivity(Intent.createChooser(shareIntent, "Share Article"))
+                        Log.d(TAG, "Share sheet opened")
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Failed to open share sheet: ${e.message}")
+                        android.widget.Toast.makeText(this, "Unable to share article", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                } ?: run {
+                    Log.e(TAG, "No article available to share")
+                    android.widget.Toast.makeText(this, "No article to share", android.widget.Toast.LENGTH_SHORT).show()
                 }
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> {
+                Log.d(TAG, "Unknown menu item: ${item.itemId}")
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 
