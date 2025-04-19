@@ -35,7 +35,7 @@ class NewsDetailsActivity : AppCompatActivity() {
 
 
         // Get NewsArticle object from intent
-        val newsArticle = intent.getParcelableExtra<NewsArticle>("newsArticle")
+        newsArticle = intent.getParcelableExtra<NewsArticle>("newsArticle")
         newsArticle?.let {
             Log.d(TAG, "Received article: ${it.title}, URL: ${it.url}")
             displayNewsDetails(it)
@@ -62,6 +62,7 @@ class NewsDetailsActivity : AppCompatActivity() {
         Log.d(TAG, "Menu item selected: ${item.itemId}")
         return when (item.itemId) {
             android.R.id.home -> {
+                Log.d(TAG, "Back button pressed")
                 onBackPressed()
                 true
             }
