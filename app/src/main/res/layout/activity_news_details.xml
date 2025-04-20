@@ -59,4 +59,14 @@
         android:text="View Full Article"
         android:layout_marginTop="32dp" />
 
+    <ImageButton
+        android:id="@+id/textSizeToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_menu_zoom"
+        android:contentDescription="Toggle text size"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
 </LinearLayout>

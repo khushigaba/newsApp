@@ -9,4 +9,11 @@
         android:contentDescription="Share this article"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_text_size"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="Toggle Text Size"
+        android:contentDescription="Toggle text size"
+        app:showAsAction="ifRoom" />
+
 </menu>

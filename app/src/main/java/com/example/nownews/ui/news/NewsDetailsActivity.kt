@@ -21,6 +21,7 @@ class NewsDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsDetailsBinding
     private var newsArticle: NewsArticle? = null // Class-level property
     private val TAG = "NewsDetailsActivity"
+    private var isLargeText = false // Track text size state
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +52,14 @@ class NewsDetailsActivity : AppCompatActivity() {
         }
     }
 
-    // Inflate the options menu
+    // Inflate the options menu (for share functionality)
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d(TAG, "Inflating menu")
         menuInflater.inflate(R.menu.menu_news_details, menu)
         return true
     }
 
+    // Handle menu item clicks (for share functionality)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "Menu item selected: ${item.itemId}")
         return when (item.itemId) {
@@ -94,11 +96,17 @@ class NewsDetailsActivity : AppCompatActivity() {
                 }
                 true
             }
+            R.id.action_text_size -> {
+                isLargeText = !isLargeText
+                updateTextSize()
+                true
+            }
             else -> {
                 Log.d(TAG, "Unknown menu item: ${item.itemId}")
                 super.onOptionsItemSelected(item)
             }
         }
+
     }
 
 
@@ -115,5 +123,18 @@ class NewsDetailsActivity : AppCompatActivity() {
             newsDate.text = DateUtils.formatDateTime(newsArticle.publishedAt)
             newsDescription.text = newsArticle.description ?: "No description available."
         }
+    }
+
+    private fun updateTextSize() {
+        binding.apply {
+            if (isLargeText) {
+                newsTitle.textSize = 28f // Larger title size (in sp)
+                newsDescription.textSize = 20f // Larger description size (in sp)
+            } else {
+                newsTitle.textSize = 24f // Default title size (in sp)
+                newsDescription.textSize = 16f // Default description size (in sp)
+            }
+        }
+        Log.d(TAG, "Text size toggled to ${if (isLargeText) "large" else "normal"}")
     }
 }
