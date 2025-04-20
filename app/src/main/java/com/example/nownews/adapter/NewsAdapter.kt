@@ -2,6 +2,7 @@ package com.example.nownews.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nownews.databinding.ItemNewsBinding
@@ -31,6 +32,7 @@ class NewsAdapter(
 
                 // Set click listener
                 root.setOnClickListener {
+                    Toast.makeText(root.context, "Opening ${news.title}", Toast.LENGTH_SHORT).show()
                     onItemClick(news)
                 }
             }
