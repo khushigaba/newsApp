@@ -5,12 +5,12 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Trending News" />
+        android:title="Trending" />
 
     <item
         android:id="@+id/navigation_category"
         android:icon="@drawable/baseline_category_24"
-        android:title="News Category" />
+        android:title="Category" />
 
 
     <item
@@ -21,7 +21,8 @@
     <item
         android:id="@+id/action_text_size"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="Toggle Text"
+        android:title="Toggle text"
         android:contentDescription="Toggle text size"
         app:showAsAction="never" />
+
 </menu>

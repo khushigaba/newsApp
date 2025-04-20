@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nownews.databinding.ItemNewsCategoryBinding
 import com.example.nownews.model.NewsCategory
+import com.example.nownews.utils.TextSizeUtils
 
 class NewsCategoryAdapter(
     private val categories: List<NewsCategory>,
@@ -14,8 +15,14 @@ class NewsCategoryAdapter(
     inner class NewsCategoryViewHolder(private val binding: ItemNewsCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: NewsCategory) {
-            binding.tvCategoryName.text = category.category.capitalize()
-            binding.root.setOnClickListener { onItemClick(category) }
+            binding.apply {
+                tvCategoryName.text = category.category.capitalize()
+
+                // Apply text size
+                TextSizeUtils.applyTextSize(root.context, tvCategoryName, 18f, 26f)
+
+                root.setOnClickListener { onItemClick(category) }
+            }
         }
     }
 

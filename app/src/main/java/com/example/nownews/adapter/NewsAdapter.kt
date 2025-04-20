@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.nownews.databinding.ItemNewsBinding
 import com.example.nownews.model.NewsArticle
 import com.example.nownews.utils.DateUtils
+import com.example.nownews.utils.TextSizeUtils
 
 class NewsAdapter(
     private val newsList: List<NewsArticle>,
@@ -15,17 +16,21 @@ class NewsAdapter(
 
     inner class NewsViewHolder(private val itemNewsBinding: ItemNewsBinding) : RecyclerView.ViewHolder(itemNewsBinding.root) {
         fun bind(news: NewsArticle) {
-            itemView.apply {
-                itemNewsBinding.title.text = news.title
-                itemNewsBinding.date.text = DateUtils.formatDateTime(news.publishedAt)
+            itemNewsBinding.apply {
+                title.text = news.title
+                date.text = DateUtils.formatDateTime(news.publishedAt)
 
                 // Load image using Glide
-                Glide.with(context)
+                Glide.with(root.context)
                     .load(news.imageUrl)
-                    .into(itemNewsBinding.image)
+                    .into(image)
+
+                // Apply text size
+                TextSizeUtils.applyTextSize(root.context, title, 16f, 24f)
+                TextSizeUtils.applyTextSize(root.context, date, 12f, 20f)
 
                 // Set click listener
-                setOnClickListener {
+                root.setOnClickListener {
                     onItemClick(news)
                 }
             }
