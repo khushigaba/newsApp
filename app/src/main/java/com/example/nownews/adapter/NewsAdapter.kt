@@ -32,7 +32,8 @@ class NewsAdapter(
 
                 // Set click listener
                 root.setOnClickListener {
-                    Toast.makeText(root.context, "Opening ${news.title}", Toast.LENGTH_SHORT).show()
+                    val relativeTime = DateUtils.getRelativeTime(news.publishedAt)
+                    Toast.makeText(root.context, "Published $relativeTime Opening ${news.title} ", Toast.LENGTH_SHORT).show()
                     onItemClick(news)
                 }
             }
