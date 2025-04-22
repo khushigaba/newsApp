@@ -19,7 +19,8 @@
         <action
             android:id="@+id/action_navigation_category_to_viewNewsListFragment"
             app:destination="@id/viewNewsListFragment"
-            app:popUpTo="@id/navigation_category" />
+            app:popUpTo="@id/navigation_category"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -30,5 +31,15 @@
     <fragment
         android:id="@+id/viewNewsListFragment"
         android:name="com.example.nownews.ui.category.ViewNewsListFragment"
-        android:label="News" />
+        android:label="{categoryName}">
+        <argument
+            android:name="categoryName"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_viewNewsListFragment_to_navigation_category"
+            app:destination="@id/navigation_category"
+            app:popUpTo="@id/navigation_category"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
